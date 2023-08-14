@@ -11,7 +11,7 @@ fn main() {
     };
 
     mm.items.insert("first_key".to_string(), 42);
-    // mm.items.insert("second_key".to_string(), 123);
+    mm.items.insert("second_key".to_string(), 123);
 
     command_line();
 
