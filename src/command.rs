@@ -1,14 +1,9 @@
 use crate::Minimemcached;
 
-enum command {
-    Get(String),
-    Set(String),
+pub(crate) fn get_data(mm: &Minimemcached,key: String ) -> Option<i32> {
+    mm.items.get(&key).copied()
 }
 
-pub(crate) fn getData(mm: Minimemcached,key: String ) {
-    mm.items.get(&key);
-}
-
-pub(crate) fn setData(mut mm: Minimemcached,key: String, value: i32) {
+pub(crate) fn set_data(mm:&mut  Minimemcached,key: String, value: i32) {
     mm.items.insert(key, value);
 }
