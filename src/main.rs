@@ -11,12 +11,10 @@ fn main() {
         items: HashMap::new(),
     };
 
-    mm.items.insert("first_key".to_string(), 42);
-    mm.items.insert("second_key".to_string(), 123);
+    println!("hello");
 
     command_line(&mut mm);
 
-    println!("hello");
 }
 
 fn command_line(mm :&mut Minimemcached) {
@@ -65,6 +63,10 @@ fn command_line(mm :&mut Minimemcached) {
                                 println!("key or value not found");
                             }
                         }
+                    }
+                    Some("flush") => {
+                        command::flush_data(mm);
+                        println!("flush!")
                     }
                     Some("quit") => {
                         println!("bye");
