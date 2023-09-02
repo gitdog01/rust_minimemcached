@@ -1,9 +1,9 @@
 use std::collections::HashMap;
 use std::io::{self, Write};
-mod command;
+mod action;
 
 struct Minimemcached {
-    items: HashMap<String, i32>,
+    items: HashMap<String, String>,
 }
 
 fn main() {
@@ -35,7 +35,7 @@ fn command_line(mm :&mut Minimemcached) {
                         let key = iter.next();
                         match key {
                             Some(key) => {
-                                let value = command::get_data(&mm, key.to_string());
+                                let value: Option<String> = action::get_data(&mm, key.to_string());
                                 // 키로 값 가져오기
                                 println!("{:?}",value)
                                 // print 할때는 {:?} 를 사용하세요. 
@@ -50,14 +50,8 @@ fn command_line(mm :&mut Minimemcached) {
                         let value = iter.next();
                         match (key, value) {
                             (Some(key), Some(value)) => {
-                                let mut int_value = -1;
                                 // 임시값 생성
-                                match value.parse::<i32>() {
-                                    Ok(num) => int_value = num,
-                                    // 출력할 때는 i32 로 처리하고 싶었음.
-                                    Err(e) => println!("Failed to parse the string: {}", e),
-                                }
-                                command::set_data(mm, key.to_owned(), int_value)
+                                action::set_data(mm, key.to_owned(), value.to_string())
                             }
                             _ => {
                                 println!("key or value not found");
@@ -65,7 +59,7 @@ fn command_line(mm :&mut Minimemcached) {
                         }
                     }
                     Some("flush") => {
-                        command::flush_data(mm);
+                        action::flush_data(mm);
                         println!("flush!")
                     }
                     Some("quit") => {

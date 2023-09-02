@@ -1,15 +1,10 @@
-use std::collections::HashMap;
-
 use crate::Minimemcached;
 
-pub(crate) fn get_data(mm: &Minimemcached,key: String ) -> Option<i32> {
-    mm.items.get(&key).copied()
-}
+fn get(mm: &Minimemcached,key: String);
 
-pub(crate) fn set_data(mm:&mut  Minimemcached,key: String, value: i32) {
-    mm.items.insert(key, value);
-}
+fn set(mm:&mut  Minimemcached,key: String, value: String);
 
-pub(crate) fn flush_data(mm:&mut Minimemcached) {
-    mm.items = HashMap::new();
-}
+fn flush(mm:&mut Minimemcached);
+
+fn quit();
+
