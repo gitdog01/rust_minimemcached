@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::io::{self, Write};
 mod action;
+mod command;
 
 struct Minimemcached {
     items: HashMap<String, String>,
@@ -33,38 +34,18 @@ fn command_line(mm :&mut Minimemcached) {
                     Some("get") => {
                         // 커맨드가 get 일때
                         let key = iter.next();
-                        match key {
-                            Some(key) => {
-                                let value: Option<String> = action::get_data(&mm, key.to_string());
-                                // 키로 값 가져오기
-                                println!("{:?}",value)
-                                // print 할때는 {:?} 를 사용하세요. 
-                                }
-                            None => {
-                                println!("key not found");
-                            }
-                        }
+                        command::get(&mm, key);
                     }
                     Some("set") => {
                         let key = iter.next();
                         let value = iter.next();
-                        match (key, value) {
-                            (Some(key), Some(value)) => {
-                                // 임시값 생성
-                                action::set_data(mm, key.to_owned(), value.to_string())
-                            }
-                            _ => {
-                                println!("key or value not found");
-                            }
-                        }
+                        command::set(mm, key, value)
                     }
                     Some("flush") => {
-                        action::flush_data(mm);
-                        println!("flush!")
+                        command::flush(mm);
                     }
                     Some("quit") => {
-                        println!("bye");
-                        break;
+                        command::quit();
                     }
                     _ => {
                         println!("unknown command");
